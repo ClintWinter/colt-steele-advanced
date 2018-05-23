@@ -1,0 +1,20 @@
+p {
+    width: 50px;
+    height: 50px;
+    background-color: #1abc9c;
+    color: #ecf0f1;
+    border: 2px solid #2c3e50;
+    text-align: center;
+}
+
+.scaled {
+    background-color: #3498db;
+    transform: scale(1.5);
+}
+
+.scaled-origin {
+    background-color: #fcd04b;
+    transform: scale(5);
+    /* transform-origin: 0 0; */
+    transform-origin: top left;
+}

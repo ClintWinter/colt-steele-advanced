@@ -1,0 +1,35 @@
+body {
+    margin-top: 40vh;
+    background-color: #fcd04b;
+}
+
+button {
+    display: block;
+    position: relative;
+    margin: auto;
+    outline: none;
+}
+
+button#one {
+    border: none;
+    cursor: pointer;
+    background-color: #fcad26;
+    font-size: 24px;
+    font-weight: 400;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 45px 90px;
+    border-radius: 20px;
+    box-shadow: 0 10px #efa424;
+}
+
+button#one:hover {
+    box-shadow: 0 6px #efa424;
+    top: 4px;
+}
+
+button#one:active {
+    box-shadow: none;
+    top: 10px;
+}

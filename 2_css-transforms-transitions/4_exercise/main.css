@@ -1,0 +1,27 @@
+body {
+    margin-top: 40vh;
+}
+
+button {
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+
+    background-color: #aaa;
+    color: white;
+}
+
+button#one:active {
+    background-color: purple;
+}
+
+button#two:hover {
+    background-color: green;
+}
+
+button#three:focus {
+    background-color: orange;
+}

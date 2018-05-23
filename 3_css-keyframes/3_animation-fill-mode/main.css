@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+}
+
+.box {
+    background: #2ecc71;
+    border-bottom: 10px solid #27ae60;
+    border-right: 4px solid #27ae60;
+    color: white;
+    height: 100px;
+    width: 100%;
+    margin: 25px auto;
+    line-height: 100px;
+    text-align: center;
+    font-size: 17px;
+    border-radius: 20px;
+}
+
+.box:hover {
+    animation-name: changecolor;
+    animation-delay: 2s;
+    animation-duration: 3s;
+}
+
+.box.forwards {
+    animation-fill-mode: forwards;
+}
+
+.box.backwards {
+    animation-fill-mode: backwards;
+}
+
+.box.both {
+    animation-fill-mode: both;
+}
+
+@keyframes changecolor {
+    0% {
+        background-color: #f1c40f;
+        border-bottom: 10px solid #f39c12;
+        border-right: 4px solid #f39c12;
+    }
+
+    100% {
+        background-color: #e74c3c;
+        border-bottom: 10px solid #c0392b;
+        border-right: 4px solid #c0392b;
+    }
+}

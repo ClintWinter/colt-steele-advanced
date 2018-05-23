@@ -1,0 +1,26 @@
+p {
+    width: 50px;
+    height: 50px;
+    background-color: #1abc9c;
+    color: #ecf0f1;
+    border: 2px solid #2c3e50;
+    text-align: center;
+}
+
+.rotate {
+    background-color: #3498db;
+    transform: rotate(90deg);
+}
+
+.rotate-origin {
+    background-color: #9b59b6;
+    transform: rotate(-15deg);
+    transform-origin: top right;
+    /* Makes it look like one of the pins fell out of a poster! */
+}
+
+.transform-mult {
+    background-color: crimson;
+    transform: rotate(180deg) scale(2);
+    transform-origin: bottom right;
+}

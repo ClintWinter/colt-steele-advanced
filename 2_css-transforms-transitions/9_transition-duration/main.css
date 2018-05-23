@@ -1,0 +1,20 @@
+.box {
+    background: #9b59b6;
+    height: 100px;
+    width: 100px;
+    line-height: 100px;
+    text-align: center;
+    color: white;
+    font-size: 17px;
+    border-radius: 20px;
+}
+
+.box:hover {
+    background: #e74c3c;
+    transform-origin: top left;
+    transform: scale(2);
+}
+
+.animated {
+    transition-duration: 1s;
+}

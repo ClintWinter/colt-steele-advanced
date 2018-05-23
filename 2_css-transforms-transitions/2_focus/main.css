@@ -1,0 +1,8 @@
+input:focus {
+    background-color: aquamarine;
+}
+
+button:focus {
+    border-radius: 10px;
+    background-color: #2ecc71
+}

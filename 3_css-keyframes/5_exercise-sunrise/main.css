@@ -1,0 +1,178 @@
+body {
+    margin: 0;
+    background: #2c3e50;
+    animation-name: sky;
+    animation-iteration-count: infinite;
+    animation-duration: 8s;
+
+    overflow: hidden;
+}
+
+.cloud {
+    height: 150px;
+    width: 325px;
+    z-index: 5;
+    position: absolute;
+    top: 200px;
+    left: -325px;
+    opacity: 0.95;
+
+    animation-name: cloud;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.cloud2 {
+    height: 100px;
+    width: 225px;
+    top: 50px;
+
+    animation-duration: 14s;
+}
+
+.cloud3 {
+    height: 80px;
+    width: 250px;
+    top: 300px;
+
+    animation-duration: 20s;
+}
+
+.cloud .puff1  {
+    width: 200px;
+    height: 75px;
+    border-radius: 50%;
+    background-color: #ecf0f1;
+    border-bottom: 6px solid #bdc3c7;
+    border-right: 2px solid #bdc3c7;
+    position: absolute;
+    top: 0; left: calc(50% - 100px);
+}
+
+.cloud .puff2  {
+    width: 200px;
+    height: 75px;
+    border-radius: 50%;
+    background-color: #ecf0f1;
+    position: absolute;
+    top: calc(50% - 37px); left: 0;
+}
+
+.cloud .puff3  {
+    width: 200px;
+    height: 75px;
+    border-radius: 50%;
+    background-color: #ecf0f1;
+    border-bottom: 6px solid #bdc3c7;
+    border-right: 2px solid #bdc3c7;
+    position: absolute;
+    top: calc(50% - 30px); right: 0;
+
+}
+
+.cloud .puff4  {
+    width: 200px;
+    height: 75px;
+    border-radius: 50%;
+    background-color: #ecf0f1;
+    border-bottom: 6px solid #bdc3c7;
+    border-right: 2px solid #bdc3c7;
+    position: absolute;
+    bottom: 20px; left: calc(50% - 115px);
+}
+
+.grass {
+    background: linear-gradient(#27ae60 0%, #09632d 50%);
+    height: 500px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+.sun {
+    background: #f1c40f;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 300px;
+    box-shadow: 0px 0px 20px 5px #f39c12;
+
+    animation-name: sun;
+    animation-iteration-count: infinite;
+    animation-duration: 8s;
+    animation-timing-function: linear;
+}
+
+@keyframes sky {
+    /* night */
+    0% {
+        background: #2c3e50;
+    }
+    /* dawn */
+    15% {
+        background: #dab9c5;
+    }
+    /* day */
+    30% {
+        background: #76bae4;
+    }
+    /* day end */
+    70% {
+        background: #76bae4;
+    }
+    /* dusk */
+    85% {
+        background: #da6a73;
+    }
+    /* night */
+    100% {
+        background: #2c3e50;
+    }
+}
+
+@keyframes sun {
+    0% {
+        background: #f39c12;
+        transform: translate(0, 0);
+    }
+    25% {
+        background: #f1c40f;
+        transform: translate(425px, -250px);
+    }
+    50% {
+        background: #f1c40f;
+        transform: translate(850px, -400px);
+    }
+    75% {
+        background: #f1c40f;
+        transform: translate(1275px, -250px);
+    }
+    100% {
+        background: #d35400;
+        transform: translate(1700px, 0);
+    }
+}
+
+@keyframes cloud {
+    0% {
+        transform: translate(0, -15px);
+    }
+
+    25% {
+        transform: translate(600px, 15px);
+    }
+
+    50% {
+        transform: translate(1200px, -15px);
+    }
+
+    75% {
+        transform: translate(1800px, 15px);
+    }
+
+    100% {
+        transform: translate(2400px, -15px);
+    }
+}

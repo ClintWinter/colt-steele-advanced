@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Random Dogs</title>
+
+    <style>
+        body {
+            background-color: #2980b9;
+            margin: 0; padding: 0;
+        }
+        
+        main {
+            width: 60%;
+            margin: auto;
+            padding: 40px 0;
+            background-color: #ecf0f1;
+            overflow: auto;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        .photo-container {
+            text-align: center;
+            margin: 60px auto;
+        }
+
+        #photo {
+            border: 2px solid #7f8c8d;
+        }
+
+        button {
+            border: none;
+            color: white;
+            background-color: #3498db;
+            border-radius: 4px;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 16px 34px;
+            transition: all 0.2s ease-in;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+
+    <main>
+
+        <h1>Random Dog Pictures</h1>
+
+        <button id="btn">Get Random Dog!</button>
+
+        <div class="photo-container">
+            <img id="photo" src="https://dog.ceo/api/img/elkhound-norwegian/n02091467_3852.jpg" alt="picture of a dog">
+        </div>
+
+    </main>
+
+    <script src="./main.js"></script>
+
+</body>
+</html>

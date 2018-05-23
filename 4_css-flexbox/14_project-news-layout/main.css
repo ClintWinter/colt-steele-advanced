@@ -1,0 +1,35 @@
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.headlines {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.headline {
+    background: #e74c3c;
+    color: #ecf0f1;
+    padding: 10px 20px;
+    font-family: sans-serif;
+    font-weight: 900;
+
+    flex-basis: 250px;
+    flex-grow: 1;
+
+    transition: background 0.1s;
+}
+
+.headline.middle {
+    background-color: #c0392b;
+
+}
+
+.headline:hover {
+    background: #f75748;
+}

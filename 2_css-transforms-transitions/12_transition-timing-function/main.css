@@ -1,0 +1,49 @@
+.box {
+    background: #9b59b6;
+    height: 100px;
+    width: 100px;
+    line-height: 100px;
+    text-align: center;
+    color: white;
+    font-size: 17px;
+    border-radius: 20px;
+}
+
+/*
+.box:hover {
+    background: #e74c3c;
+    transform-origin: top left;
+    transform: scale(2);
+    border-radius: 50px;
+}
+
+.animated {
+    transition-duration: 2s, 0.5s;
+    transition-property: background, border-radius;
+}
+
+.progress-bar {
+    width: 5px;
+    height: 50px;
+    background-color: greenyellow;
+
+    transition-property: transform;
+    transition-duration: 5s;
+}
+
+.progress-bar:hover {
+    transform-origin: left;
+    transform: scaleX(250);
+} */
+
+.box:hover {
+    -webkit-transform: translateX(300px);
+        -ms-transform: translateX(300px);
+            transform: translateX(300px);
+}
+
+.animated {
+    transition-property: transform;
+    transition-duration: 0.5s;
+    transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}

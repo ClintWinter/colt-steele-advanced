@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Jasmine Tests</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.0.0/jasmine.css">
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.0.0/jasmine.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.0.0/jasmine-html.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.0.0/boot.js"></script>
+
+    <script type="text/javascript">
+        var earth = {
+            isRound: true,
+            numberFromSun: 3
+        };
+
+        describe("Earth", function() {
+            it("is round", function() {
+                expect(earth.isRound).toBe(true);
+            });
+            
+            it("is the third planet from the sun", function() {
+                expect(earth.numberFromSun).toBe(3);
+            });
+        });
+
+        describe("Jasmine Matchers", function() {
+            it("allows for === and deep equality", function() {
+                expect(1+1).toBe(2);
+                expect([1,2,3]).toEqual([1,2,3]);
+            });
+            it("allows for easy precision checking", function() {
+                expect(3.1415).toBeCloseTo(3.14,2);
+            });
+            it("allows for easy truthy / falsey checking", function() {
+                expect(0).toBeFalsy();
+                expect([]).toBeTruthy();
+            });
+            it("allows for checking contents of an object", function() {
+                expect([1,2,3]).toContain(1);
+                expect({name: 'Clint'}).toEqual(jasmine.objectContaining({name: 'Clint'}));
+            });
+            it("allows for easy type checking", function() {
+                expect([]).toEqual(jasmine.any(Array));
+                expect(function(){}).toEqual(jasmine.any(Function));
+            });
+        });
+    </script>
+</body>
+</html>

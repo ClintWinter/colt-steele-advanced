@@ -1,0 +1,19 @@
+p {
+    width: 50px;
+    height: 50px;
+    background-color: #1abc9c;
+}
+
+.move-right {
+    transform: translateX(100px); 
+    background-color: #3498db;
+}
+
+.move-down {
+    transform: translateY(100px);
+    background-color: #f1c40f;
+}
+
+p:hover {
+    transform: translate(20px, 20px);
+}

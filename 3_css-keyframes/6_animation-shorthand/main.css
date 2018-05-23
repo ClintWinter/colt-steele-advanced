@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+}
+
+.box {
+    background: #2ecc71;
+    border-bottom: 10px solid #27ae60;
+    border-right: 4px solid #27ae60;
+    color: white;
+    height: 100px;
+    width: 100px;
+    line-height: 100px;
+    text-align: center;
+    font-size: 17px;
+    border-radius: 20px;
+
+    /* animation-name: slideRight;
+    animation-iteration-count: infinite;
+    animation-delay: 0;
+    animation-timing-function: ease-in-out;
+    animation-duration: 2s; */
+
+    animation: slideRight 2s infinite 0s ease-in-out alternate;
+}
+
+.alternate {
+    animation-direction: alternate;
+}
+
+.reverse {
+    animation-direction: reverse;
+}
+
+@keyframes slideRight {
+    100% {
+        transform: translateX(500px);
+    }
+}
