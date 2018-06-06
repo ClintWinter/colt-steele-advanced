@@ -183,7 +183,7 @@ Allow us to control animation speed when changing CSS properties.
 
 There are 4 transition properties that we can control
 
-1. transition-duraiton
+1. transition-duration
 2. transition-property
 3. transition-timing-function
 4. transition-delay
