@@ -187,7 +187,7 @@ async function getUser(user) {
 ```
 
 ``` javascript
-getUser('cwinterweb'); // Clint Winter
+getUser('csummerweb'); // Clint Summer
 getUser('fool!!!'); // User does not exist!
 ```
 
@@ -258,14 +258,14 @@ Gather remaining (rest) of keys and values in an object and create a new one out
 ``` javascript
 var developer = {
     first: "Clint", 
-    last: "Winter", 
+    last: "Summer", 
     job: "Developer", 
     numSiblings: 4
 };
 
 var {first, last, ...data} = developer;
 first; // Clint
-last; // Winter
+last; // Summer
 data; // {job: "Developer", numSiblings: 4}
 ```
 
@@ -276,11 +276,11 @@ Spread out keys and values from one object to another.
 ``` javascript
 var developer =  {
     first: "Clint",
-    last: "Winter",
+    last: "Summer",
     job: "Developer"
 };
 
-var developer2 = {...developer, first: "Ross", last: "Stillwell"};
+var developer2 = {...developer, first: "Ross", last: "Smith"};
 ```
 
 Great for creating objects starting with default values and is a more concise alternative to `Object.assign`.

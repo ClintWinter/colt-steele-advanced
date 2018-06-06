@@ -355,17 +355,14 @@ var person = {
 
 };
 
-person.sayHi(); // "Hi Colt"
+person.sayHi(); // "Hi Clint"
 person.determineContext(); // true
 
-person.dog.sayHello(); // My guess: we get an error because this is referring to dog and firstName is not defined
-person.dog.determineContext(); // My guess: false because this refers to the last object it is in and if a function 
-                                // is declared, which I believe are both fulfilled.
+person.dog.sayHello(); // "Hello undefined"
+person.dog.determineContext(); // false
 ```
 
 > **The implicit rule states that the closest object is the one that determines the definition of `this`, so therefore `dog` is the object that `this` refers to in this instance.**
-
-I made a basic javascript mistake in my guess. `dog.firstName` is `undefined` and that won't give an error, it will just print `"Hello undefined"`. My second answer was correct.
 
 #### 3 - Explicit Binding
 
@@ -459,7 +456,7 @@ ross.sayHi(); // Hi Ross
 
 How can we refactor this duplication using call?
 
-How can we "borrow" the sayHi functino from clint and set the value of `this` to be ross?
+How can we "borrow" the sayHi function from clint and set the value of `this` to be ross?
 
 ``` javascript
 var clint = {
@@ -678,7 +675,7 @@ function Person(firstName, lastName) {
     this.lastName = lastName;
 }
 
-var clint = new Person("Clint", "Winter");
+var clint = new Person("Clint", "Summer");
 ```
 
 ## RECAP

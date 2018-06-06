@@ -1,9 +1,9 @@
 # AJAX (Part 1)
 
-**A**synchronous  
-**J**avaScript  
-**a**nd  
-**X**ML  
+**A** synchronous  
+**J** avaScript  
+**a** nd  
+**X** ML  
 
 ## AJAX is Not...
 

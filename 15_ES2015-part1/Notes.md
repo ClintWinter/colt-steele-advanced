@@ -167,7 +167,7 @@ Concatenating strings with values can be messy and error prone:
 ``` javascript
 var firstName = "Clint";
 
-var lastName = "Winter";
+var lastName = "Summer";
 
 console.log("Hello " + firstName + " " + lastName); // Error prone!
 ```
@@ -528,7 +528,7 @@ sumValues(...nums); // 47
 
 ``` javascript
 var firstName = "Clint";
-var lastName = "Winter";
+var lastName = "Summer";
 
 // ES5
 var instructor = {
@@ -541,7 +541,7 @@ In ES2015, if the keys and values have the same name, we can write it shorthand 
 
 ``` javascript
 var firstName = "Clint";
-var lastName = "Winter";
+var lastName = "Summer";
 
 // ES2015
 var instructor = {
@@ -602,7 +602,7 @@ Extracting values from data stored in objects and arrays.
 ``` javascript
 var instructor = {
     firstName: "Clint",
-    lastName: "Winter"
+    lastName: "Summer"
 };
 ```
 
@@ -613,7 +613,7 @@ var firstName = instructor.firstName;
 var lastName = instructor.lastName;
 
 firstName; // "Clint"
-lastName; // "Winter"
+lastName; // "Summer"
 ```
 Destructuring allows us to unpack values from arrays or properties from objects into distinct variables
 
@@ -622,13 +622,13 @@ Destructuring allows us to unpack values from arrays or properties from objects 
 ``` javascript
 var instructor = {
     firstName: "Clint",
-    lastName: "Winter"
+    lastName: "Summer"
 };
 
 var {firstName, lastName} = instructor;
 
 firstName; // "Clint"
-lastName; // "Winter"
+lastName; // "Summer"
 ```
 
 What if we want to change the variable names?
@@ -636,13 +636,13 @@ What if we want to change the variable names?
 ``` javascript
 var instructor = {
     firstName: "Clint",
-    lastName: "Winter"
+    lastName: "Summer"
 };
 
 var {firstName:first, lastName:last} = instructor;
 
 first; // "Clint"
-last; // "Winter"
+last; // "Summer"
 ```
 
 ### ES5 Default Values with an Object
@@ -652,16 +652,16 @@ We are checking to see if a value for the options parameter was passed in, and i
 ``` javascript
 function createInstructor(options) {
     var options = options || {};
-    var name = options.name || {first: "Clint", last: "Winter"};
+    var name = options.name || {first: "Clint", last: "Summer"};
     var isHilarious = options.isHilarious || false;
     var [name.first, name.ast, isHilarious];
 }
 ```
 
 ``` javascript
-createInstructor(); // ["Clint", "Winter", false]
-createInstructor({isHilarious: true}); // ["Clint", "Winter", true]
-createInstructor({name: {first: "Ross", last: "Stillwell"}}); // ["Ross", "Stillwell", false]
+createInstructor(); // ["Clint", "Summer", false]
+createInstructor({isHilarious: true}); // ["Clint", "Summer", true]
+createInstructor({name: {first: "Ross", last: "Smith"}}); // ["Ross", "Smith", false]
 
 // Lots of work! :(
 ```
@@ -669,7 +669,7 @@ createInstructor({name: {first: "Ross", last: "Stillwell"}}); // ["Ross", "Still
 ### ES2015 Destructuring
 
 ``` javascript
-function createInstructor({name = {first:"Clint", last:"Winter"}, isHilarious = false} = {}) {
+function createInstructor({name = {first:"Clint", last:"Summer"}, isHilarious = false} = {}) {
     return [name.first, name.last, isHilarious];
 }
 ```
@@ -680,9 +680,9 @@ function createInstructor({name = {first:"Clint", last:"Winter"}, isHilarious = 
 * If nothing is passed in, we default to the destructured object as the parameter.
 
 ``` javascript
-createInstructor(); // ["Clint", "Winter", false]
-createInstructor({isHilarious: true}); // ["Clint", "Winter", true]
-createInstructor({name: {first: "Ross", last: "Stillwell"}}); // ["Ross", "Stillwell", false]
+createInstructor(); // ["Clint", "Summer", false]
+createInstructor({isHilarious: true}); // ["Clint", "Summer", true]
+createInstructor({name: {first: "Ross", last: "Smith"}}); // ["Ross", "Smith", false]
 ```
 
 ### Object Fields as Parameters ES5

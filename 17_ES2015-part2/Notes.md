@@ -26,7 +26,7 @@ function Student(firstName, lastName) {
     this.lastName = lastName;
 }
 
-var clint = new Student("Clint", "Winter");
+var clint = new Student("Clint", "Summer");
 ```
 
 * Create a constructor function
@@ -42,7 +42,7 @@ class Student {
     }
 }
 
-var clint = new Student("Clint", "Winter"); // same as ES5
+var clint = new Student("Clint", "Summer"); // same as ES5
 ```
 
 * `constructor` is just like `__construct()` in PHP. It is invoked when an instance of the class is created.

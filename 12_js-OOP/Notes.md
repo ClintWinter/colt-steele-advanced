@@ -352,8 +352,8 @@ function Student(firstName, lastName) {
 
 Student.prototype = Person.prototype;
 
-var clint = new Student("Clint", "Winter");
-clint.sayHi(); // "Hello Clint Winter"
+var clint = new Student("Clint", "Summer");
+clint.sayHi(); // "Hello Clint Summer"
 ```
 
 It works!
@@ -367,7 +367,7 @@ Student.prototype.status = function() {
     return "I am currently a student!";
 }
 
-var clint = new Person("Clint", "Winter");
+var clint = new Person("Clint", "Summer");
 clint.status(); // "I am currently a student!"
 ```
 
@@ -404,7 +404,7 @@ Student.prototype.status = function() {
     return "I am currently a student!";
 }
 
-var clint = new Person("Clint", "Winter");
+var clint = new Person("Clint", "Summer");
 clint.status(); // undefined
 ```
 

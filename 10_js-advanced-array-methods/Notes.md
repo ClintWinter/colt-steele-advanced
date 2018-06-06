@@ -466,8 +466,8 @@ function createFullName(arr) {
     }, []);
 }
 
-createFullName([{first: "Clint", last: "Winter"}, {first: "Ross", last: "Stillwell"}]);
-// ["Clint Winter", "Ross Stillwell"]
+createFullName([{first: "Clint", last: "Summer"}, {first: "Ross", last: "Smith"}]);
+// ["Clint Summer", "Ross Smith"]
 ```
 
 ## Recap

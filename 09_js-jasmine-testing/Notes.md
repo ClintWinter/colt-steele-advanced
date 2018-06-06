@@ -538,7 +538,7 @@ function getUserInfo(username) {
 describe("#getUserInfo", function() {
     it("returns the correct name for the user", function(done) {
         getUserInfo("clintw").then(function(data) {
-            expect(data.name).toBe("Clint Winter");
+            expect(data.name).toBe("Clint Summer");
             done();
         });
     });

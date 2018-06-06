@@ -73,7 +73,7 @@ We will start using this file by requesting `api/todos` at the start to initiall
 $(function() {
     $.ajax({
         type: "GET",
-        url: "https://todo-app-clintwinter.c9users.io/api/todos",
+        url: "https://todo-app-clintsummer.c9users.io/api/todos",
         success: function(data) {
             console.log(data);
         }
@@ -89,7 +89,7 @@ Here's the code on how to add the list items to the page, this should be pretty 
 $(function() {
     $.ajax({
         type: "GET",
-        url: "https://todo-app-clintwinter.c9users.io/api/todos",
+        url: "https://todo-app-clintsummer.c9users.io/api/todos",
         success: addTodos
     });
 });
