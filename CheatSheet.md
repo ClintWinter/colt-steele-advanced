@@ -885,3 +885,646 @@ We have so far learned about **unit testing**. This is good for testing small pi
 **Acceptance testing** involves performing tests on the whole system, which could be using the application on the browser or on a device to see whether the functionality satisfies a specification provided.
 
 **Stress testing** is to determine how effective our applications can be under unfavorable conditions. These conditions can include systems going down, high traffic, or other uncommon scenarios.
+
+## Advanced Array Methods
+
+### forEach
+
+* Iterates through an array
+* Runs a callback function on each value in the array
+* Returns `undefined`
+
+`forEach` ALWAYS RETURNS `undefined`.
+
+``` javascript
+// array . method ( callback ( value, index, array ) { body });
+[1, 2, 3].forEach(function(index, value, array) {});
+
+// This callback function will be ran 3 times for each value in the array. Hence the name "forEach"...
+```
+
+### Map
+
+* Invoked on an array (obviously) and the first thing it does is create a new array.
+* Iterates through the array
+* Runs a callback function for each value in the array
+* Adds the result of that callback function to the new array
+* Returns the new array
+
+Kind of like what we were doing with the `foreach` exercises, expect it'll end up a lot cleaner and shorter.
+
+`map` **always** returns a **new array** of the **same length**.
+
+An example:
+
+``` javascript
+var arr = [1, 2, 3];
+
+arr.map(function(value, index, array) {
+    return value * 2;
+});
+
+// [2, 4, 6]
+```
+
+### Filter
+
+* Invoked on an array
+* Creates a new array
+* Itereates through an array
+* Runs a callback function on each value in the array
+* If the callback function returns true, that value will be added to the new array
+* If the callback function returns false, that value will be ignored from the new array
+
+The result of the *callback* will ALWAYS be a **boolean**.
+
+An example:
+
+``` javascript
+var instructors = [
+    {name: "Clint"},
+    {name: "Ross"},
+    {name: "Jake"},
+    {name: "Danny"}
+];
+
+// filter so only instructors with names more than 4 characters are in the array
+instructors.filter(function(value, index, array) {
+    return value.name.length > 4;
+});
+
+// [{name: "Clint"}, {name: "Danny"}]
+```
+
+### Some
+
+* Invoked on an array
+* Iterates through the array
+* Runs a callback function on each value in the array
+* If the callback returns true for at least one single value, the entire function returns true
+* Otherwise, return false
+
+The result of the *callback* will ALWAYS be a **boolean**.
+
+An example:
+
+``` javascript
+var arr = [1, 2, 3];
+
+arr.some(function(value, index, array) {
+    return value < 2;
+});
+
+// true
+```
+
+As long as 1 value is less than 2, the entire function returns true.
+
+&nbsp;
+
+``` javascript
+var arr = [1, 2, 3];
+
+arr.some(function(value, index, array) {
+    return value > 4;
+});
+
+// false
+```
+
+### Every
+
+* Invoked on an array
+* Iterates through the array
+* Runs a callback function on each value in the array
+* If the callback returns false for at least one single value, the entire function returns false
+* Otherwise, return true
+
+Basically the reverse of `some`. If we want to return true, they must all be true.
+
+The result of the *callback* will ALWAYS be a **boolean**.
+
+An example:
+
+``` javascript
+var arr = [-1, -2, -3];
+
+arr.every(function(value, index, array) {
+    return value < 0;
+});
+
+// true
+```
+
+``` javascript
+var arr = [1, 2, 3];
+
+arr.every(function(value, index, array) {
+    return value > 2;
+});
+
+// false
+```
+
+### Reduce
+
+Can convert an array to any other data type.
+
+* Invoked on an array
+* Accepts a callback function and an optional second parameter
+* Iterates through an array
+* Runs a callback on each value in the array
+* The first parameter to the callback is either the first value in the array or the optional second parameter.
+* The first parameter to the callback is often called "the accumulator"
+* The returned value from the callback becomes the new value of the accumulator
+
+Whatever is returned from the callback function, becomes the new value of the accumulator!
+
+``` javascript
+// array . method ( callback( accumulator, nextValue, index, array ) { body }, optional_second_parameter )
+
+[1, 2, 3].reduce(function(accumulator, nextValue, index, array) {
+    // whatever is returned inside here will be the value of accumulator in the next iteration.
+}, optional);
+```
+
+``` javascript
+var arr = [1, 2, 3, 4, 5];
+
+arr.reduce(function(accumulator, nextValue) {
+    return accumulator + nextValue;
+});
+```
+
+| `accumulator` | `nextValue` | returned value |
+| --- | --- | --- |
+| 1 | 2 | 3 |
+| 3 | 3 | 6 |
+| 6 | 4 | 10 |
+| 10 | 5 | 15 |
+
+Adding a second parameter:
+
+``` javascript
+var arr = [1, 2, 3, 4, 5];
+
+arr.reduce(function(accumulator, nextValue) {
+    return accumulator + nextValue;
+}, 10);
+```
+
+Notice `nextValue` starts with 1 this time because it isn't defaulted to the accumulator.
+
+| `accumulator` | `nextValue` | returned value |
+| --- | --- | --- |
+| 10 | 1 | 11 |
+| 11 | 2 | 13 |
+| 13 | 3 | 16 |
+| 16 | 4 | 20 |
+| 20 | 5 | 25 |
+
+``` javascript
+var arr = [5, 4, 1, 4, 5];
+
+arr.reduce(function(accumulator, nextValue) {
+    if (nextValue in accumulator) {
+        accumulator[nextValue]++;
+    } else {
+        accumulator[nextValue] = 1;
+    }
+}, {});
+```
+
+| `accumulator` | `nextValue` | returned value |
+| --- | --- | --- |
+| `{}` | 5 | `{5: 1}` |
+| `{5: 1}` | 4 | `{5: 1, 4: 1}` |
+| `{5: 1, 4: 1}` | 1 | `{5: 1, 4: 1, 1: 1}` |
+| `{5: 1, 4: 1, 1: 1}` | 4 | `{5: 1, 4: 2, 1: 1}` |
+| `{5: 1, 4: 2, 1: 1}` | 5 | `{5: 2, 4: 2, 1: 1}` |
+
+### Summary
+
+| Method | Usage | Return Type |
+| --- | --- | --- |
+| `forEach` | iterates over an array, runs a callback on each value | returns `undefined` |
+| `map` | pushes callback result in a new array | returns `array` |
+| `filter` | if callback result is true, added to new array | returns `array` |
+| `some` | if at least 1 callback result is true, returns true, otherwise false | returns `boolean` |
+| `every` | if at least 1 callback result is false, returns false, otherwise true | returns `boolean` |
+| `reduce` | returns an accumulated value which is determined by the result of what is returned each callback | returns any value type |
+
+
+## Closures
+
+A **closure** is a function that makes use of variables defined in outer functions that have previously returned.
+
+``` javascript
+function outer() {
+    var start = "Closures are";
+    return function inner() {
+        return start + " awesome";
+    }
+}
+
+outer();
+// returns:
+/*
+function inner() {
+    return start + " awesome";
+}
+*/
+
+outer()(); // Closures are awesome
+```
+
+``` javascript
+function outer(a) {
+    return function inner(b) {
+        // the inner function is making use of the variable "a"
+        // which was defined in an outer function called "outer"
+        // and by the time inner is called, that outer function has returned
+        // this function called "inner" as a closure.
+        return a + b;
+    }
+}
+
+outer(5)(5); // 10
+
+var storeOuter = outer(5);
+
+storeOuter(10); // 15
+```
+
+A couple things to note:
+
+* We have to return the inner function for this to work.
+* We can either call the inner function right away by using an extra `()` or we can store the result of the function in a variable.
+* We do NOT have to give the inner function a name - we can make it anonymous (we called in "inner" for learning purposes).
+
+Only variables used in the inner function are remembered!
+
+``` javascript
+function o() {
+    var data = "something from outer fn";
+    var fact = "Remember me!";
+    return function i() {
+        // if you keep the chrome dev tools open
+        // this will pause our code and place us
+        // in the sources tab where we can examine variables
+        debugger;
+        return fact;
+    }
+}
+
+var outer = o();
+outer();
+```
+
+``` javascript
+function classroom() {
+    var instructors = ["Clint", "Ross"];
+    return {
+        getInstructors: function() {
+            return instructors;
+        },
+        addInstructors: function(instructor) {
+            instructors.push(instructor);
+            return instructors;
+        }
+    }
+}
+
+var course1 = classroom();
+course1.getInstructors(); // ["Clint", "Ross"]
+course1.addInstructors("Danny"); // ["Clint", "Ross", "Danny"]
+course1.getInstructors(); // ["Clint", "Ross", "Danny"]
+```
+
+There is a loophole, though. We can modify the instructors array by performing methods on the `getInstructors` method:
+
+``` javascript
+course1.getInstructors().pop(); // Danny
+course1.getInstructors(); // ["Clint" , "Ross"]
+```
+
+How can we prevent this?
+
+We now return a copy instead of giving the original that someone can manipulate.
+
+``` javascript
+function classroom() {
+    var instructors = ["Clint", "Ross"];
+    return {
+        getInstructors: function() {
+            return instructors.slice();
+        },
+        addInstructors: function(instructor) {
+            instructors.push(instructor);
+            return instructors.slice();
+        }
+    }
+}
+
+var c1 = classroom();
+c1.getInstructors(); // ["Clint", "Ross"]
+c1.getInstructors().pop(); // Ross
+c1.getInstructors().pop(); // Ross
+c1.getInstructors(); // ["Clint", "Ross"]
+```
+
+### Recap
+
+* Closure exists when an inner function makes use of variables declared in an outer function which has previously returned
+* Closure does not exist if you do not return an inner function and if that inner function does not make use of variables returned by an outer function.
+* JavaScript will only remember values that are being used inside of the inner function, not all variable defined in the outer function.
+* We can use closures to create private variables and write better code that isolates our logic and application.
+
+
+## The Keyword `this`
+
+* A reserved keyword in JavaScript
+* Usually determined by how a function is called (what we call 'execution context')
+* Every time a function is run, 2 special keywords are given to that function: `this` and `arguments`
+* Can be determined using four rules (global, object/implicit, explicit, new)
+
+### Rule 1: Global Context
+
+When `this` is not inside of a declared object, `this` refers to the global object. Which, in the browser's case, is `window`.
+
+``` javascript
+console.log(this); // window
+```
+
+``` javascript
+function whatIsThis() {
+    return this;
+}
+
+whatIsThis(); // window
+
+// You would think 'this' wouldn't be window, but
+// this is not inside of a newly declared object.
+// Functions may be objects but it has to be declared
+// with the 'new' keyword to change the definition of 'this'
+```
+
+``` javascript
+function variablesInThis() {
+    this.person = "Elie";
+}
+
+variablesInThis(); // the keyword 'this' inside the function is the window
+
+// if 'this' is window, then that means 'person' is in the global scope
+// so after  the function is invoked we can use 'person' like a normal variable.
+
+console.log(person); // Elie
+```
+
+**Strict Mode** doesn't allow the declaration of variables in the global scope
+
+``` javascript
+"use strict";
+
+console.log(this); // window
+
+function whatIsThis() {
+    return this;
+}
+
+whatIsThis(); // undefined
+```
+
+### Rule 2: Object/Implicit Context
+
+When the keyword `this` IS inside of a declared object.
+
+``` javascript
+// strict mode does not make a difference here
+
+var person = {
+    firstName: "Clint",
+    sayHi: function() {
+        return "Hi " + this.firstName;
+    },
+    determineContext: function() {
+        return this === person;
+    }
+};
+
+person.sayHi(); // "Hi Clint"
+person.determineContext(); // true
+```
+
+``` javascript
+var person = {
+    firstName: "Clint",
+    determineContext: this;
+};
+
+person.determineContext === person; // false
+```
+
+Why isn't `this` equal to the object?
+
+**A keyword `this` is defined when a function is run!** There is not a function being run here to create a new value of the keyword `this` so the value of `this` is still the window.
+
+``` javascript
+var person = {
+
+    firstName: "Clint",
+
+    sayHi: function() {
+        return "Hi " + this.firstName;
+    },
+
+    determineContext: function() {
+        return this === person;
+    },
+
+    dog: {
+
+        sayHello: function() {
+            return "Hello " + this.firstName;
+        },
+
+        determineContext: function() {
+            return this === person;
+        }
+
+    }
+
+};
+
+person.sayHi(); // "Hi Clint"
+person.determineContext(); // true
+
+person.dog.sayHello(); // "Hello undefined"
+person.dog.determineContext(); // false
+```
+
+> **The implicit rule states that the closest object is the one that determines the definition of `this`, so therefore `dog` is the object that `this` refers to in this instance.**
+
+### Rule 3: Explicit Binding
+
+Choose what we want the context of `this` to be using `call`, `apply` or `bind`. **These methods can _only_ be used by functions.**
+
+| Name of Method | Parameters | Invoke Immediately? |
+| --- | --- | --- |
+| `call()` | thisArg, a, b, c, d, ...| Yes |
+| `apply()` | thisArg, [a, b, c, d, ...] | Yes |
+| `bind()` | thisArg, a, b, c, d,... | No |
+
+`thisArg` is the value we pass for what we want `this` to be. The other parameters are the arguments we are passing to the function.
+
+#### Call
+
+``` javascript
+var clint = {
+    firstName: "Clint",
+    sayHi: function() {
+        return "Hi " + this.firstName;
+    }
+};
+
+var ross = {firstName: "Ross"};
+
+clint.sayHi(); // Hi Clint
+clint.sayHi.call(ross); // Hi Ross
+```
+
+Let's imagine we want to select all the `divs` on a page.
+
+``` javascript
+var divs = document.getElementsByTagName('div');
+```
+
+How can we find all the divs that have the text "Hello" and return an array of them? Using filter would be nice!
+
+``` javascript
+divs.filter // undefined
+```
+
+The `divs` variable is not an array, it's an array-like-object so `filter` won't work.
+
+So how can we convert an array-like-object into an array?
+
+Very similar to the way we make copies of arrays - using slice!
+
+`call` to the rescue! Let's use the slice method on arrays, but instead of the target of slice (the keyword `this`) being that array, let's set the target of `this` to be our divs array-like-object.
+
+``` javascript
+var divsArray = [].slice.call(divs);
+// also commonly seen is:
+Array.prototype.slice.call(divs);
+
+// both do the same thing
+```
+
+And now we can use the `filter` method.
+
+``` javascript
+divsArray.filter(function(val) {
+    return val.innerText === "Hello";
+});
+```
+
+#### Apply
+
+The difference between `call` and `apply` is apparent when we start adding parameters.
+
+When a function does not accept an array, apply will spread out values in an array for us
+
+``` javascript
+var nums = [5, 7, 1, 4, 2];
+Math.max(nums); // NaN
+// Math.max does not accept an array
+```
+
+``` javascript
+Math.max.apply(this, nums); // 7
+```
+
+``` javascript
+function sumValues(a, b, c) {
+    return a + b + c;
+}
+
+var values = [4, 1, 2];
+
+sumValues(values); // 4,1,2undefinedundefined
+// not compatible with an array
+// instead of having to pull all the values out of the array, we can just use apply to automatically do it for us.
+
+sumValues.apply(this, values); // 7
+```
+
+#### Bind
+
+The parameters work like call, but `bind` returns a function with the context of `this` bound already!
+
+``` javascript
+function addNumbers(a, b, c, d) {
+    return this.firstName + " just calculated " + (a, b, c, d);
+}
+
+var clint = {
+    fn: "Clint"
+};
+
+var clintCalc = addNumbers.bind(clint, 1, 2, 3, 4); // function(){...}
+clintCalc(); // Clint just calculated 10
+```
+
+`bind` is useful when we don't know all of the parameters of the function right away.
+
+``` javascript
+var clintCalc = addNumbers.bind(clint, 1, 2); // function(){...}
+clintCalc(3, 4); // Clint just calculated 10
+```
+
+`bind` is commonly used in asynchronous code. Very commonly we lose the context of `this`, but in functions that we do not want to execute right away!
+
+``` javascript
+var clint = {
+    fn: "Clint",
+    sayHi: function() {
+        setTimeout(function() {
+            console.log("Hi " + this.fn);
+        }, 1000);
+    }
+};
+```
+
+Because the `setTimeout` is called at a later point in time (1 second later), the object that it is attached to is actually the global object (window). Even though it's inside the `clint` object, `setTimeout` is a window function.
+
+``` javascript
+clint.sayHi(); // Hi undefined (1000 milliseconds later)
+```
+
+Use `bind` to set the correct context of `this`.
+
+``` javascript
+var clint = {
+    fn: "Clint",
+    sayHi: function() {
+        setTimeout(function() {
+            console.log("Hi " + this.fn);
+        }.bind(this), 1000); // you could also pass it 'clint'
+    }
+};
+
+clint.sayHi(); // Hi Clint (1000 milliseconds later)
+```
+
+### Recap
+
+* The keyword `this` is a reserved keyword in JavaScript and its value is determined at execution.
+* It is either set using the global context, object binding, explicit binding, or the `new` keyword.
+* When set in the global context in a function, it is either the global object (window if in the browser) or undefined (if we are using strict mode).
+* To explicitly set the value of the keyword `this`, we can use `call`, `apply`, or `bind`.
+* We can also use the `new` keyword to set the context of `this`, which we will discuss when we talk about Object Oriented Programming.
+
+## Object Oriented Programming with JavaScript
+

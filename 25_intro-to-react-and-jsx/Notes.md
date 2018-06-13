@@ -2,7 +2,7 @@
 
 **Objectives:**
 
-* Define front-end framworks
+* Define front-end frameworks
 * Describe React at a high level
 
 ## Front-end Frameworks
@@ -18,7 +18,7 @@ The framework is in control of the DOM.
 ## React
 
 * Released by Facebook in 2013.
-* A view library that uses componsable components. Mostly concerned with displaying stuff on the screen.
+* A view library that uses composable components. Mostly concerned with displaying stuff on the screen.
 * Other libraries are commonly used with React
     * React Router
     * Redux
@@ -258,8 +258,8 @@ ReactDOM.render(<Pet />, document.getElementById("app"));
 **Objectives:**
 
 * Write JavaScript inside JSX
-* Use a style attribute in JSX
-* Add a className attribute
+* Use a `style` attribute in JSX
+* Add a `className` attribute
 
 ``` javascript
 class Pet extends React.Component {

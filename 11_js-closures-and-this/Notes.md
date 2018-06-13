@@ -69,7 +69,7 @@ function outerFn() {
 }
 ```
 
-The answer is NO (I got it right!) because the inner function has to make use of a variable declared in the outer function.
+The answer is NO because the inner function has to make use of a variable declared in the outer function.
 
 Another test:
 
@@ -83,7 +83,7 @@ function outerFn() {
 }
 ```
 
-This one is (also right!). A closure only exists when an inner function makes use of variables defined from an outer function that has returned. If the inner function does not make use of any external variables, all we have is a nested function.
+This one is. A closure only exists when an inner function makes use of variables defined from an outer function that has returned. If the inner function does not make use of any external variables, all we have is a nested function.
 
 ### How Closures Work
 
