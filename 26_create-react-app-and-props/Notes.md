@@ -249,3 +249,444 @@ class Pet extends Component {
 
 export default Pet;
 ```
+
+As an exercise, implement the HobbyList component on your own.
+
+**Solution:**
+
+Create new file `src/HobbyList.js` and put the component inside. Then import React and Component and do the same as we did with Pet.
+
+``` javascript
+import React, { Component } from 'react';
+
+class HobbyList extends Component {
+    render() {
+        const liStyle = {fontSize: '1.5em'};
+        const hobbies = ["Sleeping", "Eating", "Cuddling"];
+
+        return (
+            <ul>
+                {hobbies.map((h, i) => {
+                    return <li key={i} style={liStyle}>{h}</li>
+                })}
+            </ul>
+        )
+    }
+}
+
+export default HobbyList;
+```
+
+Then import HobbyList in `src/Pet.js` and put it back where we had it before.
+
+``` javascript
+import React, { Component } from 'react';
+import HobbyList from './HobbyList';
+import './Pet.css';
+
+class Pet extends Component {
+    render() {
+        return (
+            <div className="card">
+                <h2 className="name">Moxie</h2>
+                <img src="https://github.com/tigarcia/Moxie/raw/master/moxie.png" alt="Moxie the cat" />
+                <h5 style={{fontSize: '2em', margin: '2px'}}>Hobbies:</h5>
+                <HobbyList />
+            </div>
+        )
+    }
+}
+
+export default Pet;
+```
+
+## Props
+
+**Objectives:**
+
+* Define props
+* Use props inside of a component
+
+**Props** are immutable data passed to your components. Accessible in your component as an object called `this.props`
+
+``` javascript
+class ShowText extends Component {
+  render() {
+    // Inside the render method we have access to
+    // this.props ("this" refers to the ShowText instance).
+    return <div>{this.props.text}</div>;
+  }
+}
+```
+
+### Passing in Props to a Component
+
+When we render ShowText with JSX, we pass in props as attributes.
+
+``` javascript
+<ShowText
+  text="This is a prop named text"
+/>
+```
+
+### Props are Immutable
+
+``` javascript
+class ShowText extends Component {
+  render() {
+    // Never ever change this.props
+
+    this.props.text = "WRONG!!"; // Causes a TypeError
+
+    this.props = {}; // Never do this!!
+
+    this.props.newProp = "Also Wrong"; // Use default props
+
+    return <div>{this.props.text}</div>;
+  }
+}
+```
+
+### Recipe app with props
+
+We will create this in on our own in `Sites/Practice/recipe-app`.
+
+**Objectives:**
+
+* Use props in an application
+
+
+Start by creating the app `create-react-app recipe-app`. Then cd into the project and do `npm start` to get it running.
+
+In our new project, the first thing we will do is rename `src/App.js` to `src/RecipeApp.js` and `src/App.css` to `src/RecipeApp.css`. Then go ahead and fix the relevant imports in `src/RecipeApp.js` and `src/index.js`. Don't forget to also change the class and export names in `src/RecipeApp.js`.
+
+Next we want a component for a single recipe, so create a new file for one called `src/Recipe.js`. Also give it a CSS file `src/Recipe.css` and import it in the js file.
+
+Now in `RecipeApp` let's remove all of that JSX and give it a `Recipe` component instead.
+
+``` javascript
+import React, { Component } from 'react';
+// import logo from './logo.svg';
+import Recipe from './Recipe';
+import './RecipeApp.css';
+
+class RecipeApp extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Recipe />
+      </div>
+    );
+  }
+}
+
+export default RecipeApp;
+```
+
+Next let's build out or `Recipe` component and give it a name, instructions, ingredients, etc. The way we want to pass it that information is in the `RecipeApp` component where we are using the `Recipe` component.
+
+``` javascript
+import React, { Component } from 'react';
+// import logo from './logo.svg';
+import Recipe from './Recipe';
+import './RecipeApp.css';
+
+class RecipeApp extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Recipe 
+            title="Pasta"
+        />
+      </div>
+    );
+  }
+}
+
+export default RecipeApp;
+```
+
+Then in recipe we can use our new prop.
+
+``` javascript
+import React, {Component} from 'react';
+import './Recipe.css';
+
+class Recipe extends Component {
+    render() {
+        return (
+            <div>{this.props.title}</div>
+        );
+    }
+}
+
+export default Recipe;
+```
+
+A common practice is actually to destructure the props object.
+
+``` javascript
+import React, {Component} from 'react';
+import './Recipe.css';
+
+class Recipe extends Component {
+    render() {
+        const {title} = this.props;
+
+        return (
+            <div>{title}</div>
+        );
+    }
+}
+
+export default Recipe;
+```
+
+Next we might want to add a prop for ingredients. In this case we can give it an array.
+
+``` javascript
+<Recipe 
+    title="Pasta"
+    ingredients={['flour', 'water']}
+/>
+```
+
+Now let's handle our new ingredients in `src/Recipe.js`.
+
+``` javascript
+class Recipe extends Component {
+    render() {
+        const {title} = this.props;
+        const ingredients = this.props.ingredients.map((ing, ind) => (
+            <li key={ind}>{ing}</li>
+        ));
+
+        return (
+            <div>
+                <div>Recipe {title}</div>
+                <ul>
+                    {ingredients}
+                </ul>
+            </div>
+        );
+    }
+}
+```
+
+We create an ingredients variable where we map each ingredient to an `li`. We then add a `ul` element and put the array inside it to render it. Remember `render` has to return a single element so we will wrap the `div` and `ul` in another parent `div`.
+
+Let's add the remaining data. We can assume the recipe will have instructions and an image given to it as well.
+
+``` javascript
+class Recipe extends Component {
+    render() {
+        const {title, instructions, img} = this.props;
+        const ingredients = this.props.ingredients.map((ing, ind) => (
+            <li key={ind}>{ing}</li>
+        ));
+
+        return (
+            <div>
+                <div>Recipe {title}</div>
+                <ul>
+                    {ingredients}
+                </ul>
+                <p>{instructions}</p>
+                <img src={img} alt={title} />
+            </div>
+        );
+    }
+}
+```
+
+Now in the `RecipeApp` we can add the new props. In the `public` folder we saved an image that we will use for the `img` prop.
+
+``` javascript
+class RecipeApp extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Recipe 
+          title="Pasta"
+          ingredients={['flour', 'water']}
+          instructions="Add flour to water and mix"
+          img="spaghetti.jpg"
+        />
+      </div>
+    );
+  }
+}
+```
+
+The next step is to style this so it looks reasonable. We can start by rewriting the JSX into a proper layout.
+
+``` javascript
+class Recipe extends Component {
+    render() {
+        const {title, instructions, img} = this.props;
+        const ingredients = this.props.ingredients.map((ing, ind) => (
+            <li key={ind}>{ing}</li>
+        ));
+
+        return (
+            <div className="recipe-card">
+                <div className="recipe-card-img">
+                    <img src={img} alt={title} />
+                </div>
+
+                <div className="recipe-card-content">
+                    <h2 className="recipe-card-title">{title}</h2>
+
+                    <h3>Ingredients:</h3>
+                    <ul>
+                        {ingredients}
+                    </ul>
+
+                    <h3>Instructions:</h3>
+                    <p>{instructions}</p>
+                </div>
+            </div>
+        );
+    }
+}
+```
+
+We then add the CSS to style it in `src/Recipe.css`
+
+``` css
+.recipe-card {
+    width: 31%;
+    min-width: 240px;
+    margin: 1%;
+    
+    box-shadow: 2px 2px 5px #888;
+    border-radius: 0 0 3px 3px;
+    background: #fff;
+}
+
+.recipe-card-img img {
+    width: 100%;
+    max-height: 250px;
+}
+
+.recipe-card .recipe-card-content {
+    padding: 20px;
+}
+
+.recipe-card-title {
+    margin: 0;
+}
+```
+
+You can also go ahead and delete all the styling in `src/App.css` or `src/RecipeApp.css`. Let's also add the Roboto font to our project. Add the link to `public/index.html`. Then in `src/index.css` change the body's font family to Roboto.
+
+## defaultProps and propTypes
+
+**Objectives:**
+* Use `defaultProps` to give props a default value.
+* Use `propTypes` to specify what props a component is expecting
+
+### defaultProps
+
+Default values for props in a component.
+
+``` javascript
+class IngredientsList extends Component {
+    static defaultProps = {
+        ingredients: []
+    }
+
+    render() {
+        return (
+            <ul>
+                {this.props.ingredients.map((ing, ind) => (
+                    <li key={ind}>{ing}</li>
+                ))}
+            </ul>
+        );
+    }
+}
+```
+
+If we weren't given any ingredients, and we didn't have our `defaultProps` set, `this.props.ingredients` would be undefined and `.map` would return an error, breaking our project.
+
+This syntax also works:
+
+``` javascript
+class IngredientsList extends Component {
+    render() {
+        return (
+            <ul>
+                {this.props.ingredients.map((ing, ind) => (
+                    <li key={ind}>{ing}</li>
+                ))}
+            </ul>
+        );
+    }
+}
+
+IngredientsList.defaultProps = {
+    ingredients: []
+};
+```
+
+Here's an example of it in use:
+
+``` javascript
+class App extends Component {
+    static defaultProps = {
+        recipes: [{
+            title: "Pasta",
+            ingredients: ["flour", "water"],
+            instructions: "Add flour to water and mix",
+            img: "spaghetti.jpg"
+        }]
+    }
+
+    render() {
+        return (
+            <div>
+                {this.props.recipes.map((r, index) => (
+                    <Recipe key={index} title={r.title}
+                        ingredients={r.ingredients}
+                        img={r.img} instructions={r.instructions}
+                    />
+                ))}
+            </div>
+        );
+    }
+}
+```
+
+We can also write it this way:
+
+``` javascript
+class App extends Component {
+    static defaultProps = {
+        recipes: [{
+            title: "Pasta",
+            ingredients: ["flour", "water"],
+            instructions: "Add flour to water and mix",
+            img: "spaghetti.jpg"
+        }]
+    }
+
+    render() {
+        return (
+            <div>
+                {this.props.recipes.map((r, index) => (
+                    <Recipe key={index} {...r} />
+                ))}
+            </div>
+        );
+    }
+}
+```
+
+This is using the spread(rest) operator to make each key/value pair in the object a prop. This isn't always the best answer because sometimes it can be sloppy when you have props you don't mean to pass.
+
+### propTypes
+
+Development time type checker for your props.
+
+Installation: `npm install --save prop-types`
