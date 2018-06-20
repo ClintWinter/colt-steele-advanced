@@ -1528,3 +1528,580 @@ clint.sayHi(); // Hi Clint (1000 milliseconds later)
 
 ## Object Oriented Programming with JavaScript
 
+* A programming model based around the idea of objects.
+* These objects are constructed from what are called *classes*, which we can think of like a blueprint. We call these objects created from classes *instances*.
+* We strive to make our classes abstract and modular.
+
+### Constructor Functions
+
+``` javascript
+function House(bedrooms, bathrooms, numSqft) {
+    this.bedrooms = bedrooms;
+    this.bathrooms = bathrooms;
+    this.numSqft = numSqft;
+}
+```
+
+Notice:
+
+* Capitalization of the function name - this is conventional.
+* The keyword `this` is back!
+* We are attaching properties onto the keyword `this`. We would like the keyword `this` to refer to the object we will create from our constructor function, how might we do that?
+
+### The `new` Keyword
+
+``` javascript
+function House(bedrooms, bathrooms, numSqft) {
+    this.bedrooms = bedrooms;
+    this.bathrooms = bathrooms;
+    this.numSqft = numSqft;
+}
+
+var firstHouse = new House(2, 2, 1000);
+firstHouse.bedrooms; // 2
+firstHouse.bathrooms; // 2
+firstHouse.numSqft; // 1000
+```
+
+So what does the `new` keyword do? A lot more than we might think...
+
+* It first creates an empty object
+* It then sets the keyword `this` to be that empty object.
+* It adds the line `return this` to the end of the function, which follows it.
+* It adds a property onto the empty object called `__proto__` (dunder proto), which links the prototype property on the constructor function to the empty object (more on this later).
+
+### Using `call`/`apply`
+
+We can refactor our code quite a bit using `call` + `apply`
+
+``` javascript
+function Car(make, model, year) {
+    this.make = make;
+    this.model = model;
+    this.year = year;
+    this.numWheels = 4;
+}
+```
+
+``` javascript
+function Motorcycle(make, model, year) {
+    Car.call(this, make, model, year);
+    this.numWheels = 2;
+}
+```
+
+``` javascript
+// Using the apply option instead of call
+function Motorcycle(make, model, year) {
+    Car.apply(this, [make, model, year]);
+    this.numWheels = 2;
+}
+```
+
+``` javascript
+// even better!
+function Motorcycle() {
+    Car.apply(this, arguments);
+    this.numWheels = 2;
+}
+```
+
+### Constructor Function Recap
+
+* Object Oriented Programming is a model based on objects constructed from a blueprint. We use OOP to write more modular and shareable code.
+* In languages that have built-in support for OOP, we call these blueprints `classes` and the objects created from them `instances`.
+* Since we do not have built-in class support in JavaScript, we mimic classes by using functions. These constructor functions create objects through the use of the `new` keyword.
+* We can avoid duplication in multiple constructor functions by using `call` or `apply`.
+
+* Every constructor function has a property on it called "prototype", which is an object.
+* The prototype object has a property on it called "constructor", which points back to the constructor function.
+* Anytime an object is created using the `new` keyword, a property called `__proto__` (dunder proto) gets created, linking the object and the prototype property of the constructor function.
+
+### Prototype
+
+Let's see this in code.
+
+``` javascript
+// this is the constructor function
+function Person(name) {
+    this.name = name;
+}
+
+Person.prototype; // Object {constructor: function}
+```
+
+``` javascript
+var clint = new Person("Clint");
+var ross = new Person("Ross");
+
+clint.__proto__ === Person.prototype; // true
+```
+
+``` javascript
+Person.prototype.constructor === Person; // true
+```
+
+Where does the prototype property fit into all of this? Remember, the prototype is shared among all objects created by that constructor function
+
+``` javascript
+function Person(name) {
+    this.name = name;
+}
+
+var clint = new Person("Clint");
+var ross = new Person("Ross");
+
+Person.prototype.isInstructor = true;
+
+clint.isInstructor; // true
+ross.isInstructor; // true
+
+// how were we able to access properties on the prototype?
+
+// __proto__!
+```
+
+### Prototype Chaining
+
+How does JavaScript find methods and properties?
+
+``` javascript
+var arr = [];
+
+// same as
+var arr = new Array;
+
+// array is a built in constructor
+arr.push; // function push() { [native code] }
+
+// where is push defined?
+// __proto__!
+
+arr.__proto__ = Array.prototype; // true
+```
+
+**Refactoring**
+
+``` javascript
+function Person(name) {
+    this.name = name;
+    this.sayHi = function() {
+        return "Hi " + this.name;
+    }
+}
+
+clint = new Person("Clint");
+clint.sayHi(); // Hi Clint
+```
+
+Refactoring above, to what's below. This defines `sayHi` once so it isn't inefficiently being defined every time an instance is created.
+
+``` javascript
+function Person(name) {
+    this.name = name;
+}
+
+Person.prototype.sayHi = function() {
+    return "Hi " + this.name;
+};
+
+clint = new Person("Clint");
+clint.sayHi(); // Hi Clint
+```
+
+### Inheritance
+
+The passing of methods and properties from one class to another.
+
+``` javascript
+function Person(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+}
+
+Person.prototype.sayHi = function() {
+    return "Hello " + this.firstName + " " + this.lastName;
+};
+
+function Student(firstName, lastName) {
+    return Person.apply(this, arguments);
+}
+
+Student.prototype.sayHi = function() {
+    return "Hello " + this.firstName + " " + this.lastName;
+};
+```
+
+Do we really need to redefine `sayHi` on the `Student.prototype`? That seems repetitive...
+
+``` javascript
+function Person(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+}
+
+Person.prototype.sayHi = function() {
+    return "Hello " + this.firstName + " " + this.lastName;
+};
+```
+
+Assign the prototype property of one object to another's!
+
+``` javascript
+function Student(firstName, lastName) {
+    return Person.apply(this, arguments);
+}
+
+Student.prototype = Person.prototype;
+
+var clint = new Student("Clint", "Summer");
+clint.sayHi(); // "Hello Clint Summer"
+```
+
+Let's now add something onto the Student prototype object.
+
+``` javascript
+Student.prototype.status = function() {
+    return "I am currently a student!";
+}
+
+var clint = new Person("Clint", "Summer");
+clint.status(); // "I am currently a student!"
+```
+
+We want `student` to inherit from `person`. A `person` shouldn't get a status like a `student` does. The problem is when we assign one prototype to the other we are creating a reference.
+
+When we assign one object to another, we don't create a new object. We just create a reference (or a link) to the same object. That means when we change the `student` prototype, we also change the `person` prototype.
+
+`Object.create` creates a brand new function and accepts, as its first parameter, what the prototype object should be for the newly created object.
+
+``` javascript
+function Student(firstName, lastName) {
+    return Person.apply(this, arguments);
+}
+
+Student.prototype = Object.create(Person.prototype);
+```
+
+Let's test it again and see if they are properly separated.
+
+``` javascript
+Student.prototype.status = function() {
+    return "I am currently a student!";
+}
+
+var clint = new Person("Clint", "Summer");
+clint.status(); // undefined
+```
+
+One missing piece:
+
+``` javascript
+function Student(firstName, lastName) {
+    return Person.apply(this, arguments);
+}
+
+Student.prototype.sayHi = function() {
+    return "Hello " + this.firstName + " " + this.lastName;
+};
+
+Student.prototype = Object.create(Person.prototype);
+
+// The Student constructor is still set to Person when we set the Student prototype to the Person prototype
+Student.prototype.constructor; // Person
+
+// "Resetting the constructor" is the final part of prototypal inheritance
+Student.prototype.constructor = Student;
+```
+
+Two parts of inheritance
+
+* Set the prototype to be an object created with another prototype
+* Reset the constructor property
+
+### Recap
+
+* Every time the `new` keyword is used, a link between the object created and the prototype property of the constructor is established - this link can be accessed using `__proto__`.
+* The prototype object contains a property called constructor, which points back to the constructor function.
+* To share properties and methods for objects created by a constructor function, place them in the prototype as it is the most efficient.
+* To pass methods and properties from one prototype object to another, we can use inheritance which involves setting the prototype property to be a newly created object using `Object.create` and resetting the constructor property.
+
+## ES2015
+
+**JavaScript Timeline**
+1995/1996 - Start  
+1997 - ES1
+1998 - ES2
+1999 - ES3
+2009 - ES5
+2015 - ES6/ES2015
+2016 - ES2016
+2017 - ES2017
+
+### Const
+
+An alternative to the `var` keyword that allows us to create **constants**. Once declared, they cannot be redeclared.
+
+``` javascript
+var firstInstructor = "Clint";
+
+firstInstructor = "Ross"; // no problem
+```
+
+``` javascript
+const anotherInstructor = "Clint";
+
+anotherInstructor = "Ross"; // TypeError
+
+const anotherInstrcutor = "Ross"; // SyntaxError
+```
+
+You may not be able to change the value of a constant with a primitive value, but if set to an array it can be modified. Even though it can be mutated, it still cannot be redeclared.
+
+``` javascript
+const numbers = [1, 2, 3, 4];
+
+numbers.push(10); // 5
+
+numbers; // [1, 2, 3, 4, 5]
+
+numbers = "no!"; // TypeError
+```
+
+### Let
+
+`let` allows the reassignment of a variable, but not the redeclaration.
+
+``` javascript
+let anotherInstructor = "Clint";
+
+anotherInstructor = "Ross"; // no problem
+
+let anotherInstructor = "Clint"; // SyntaxError
+```
+
+``` javascript
+var instructor = "Clint";
+
+if (instructor === "Clint") {
+    let funFact = "Plays the Cello";
+}
+
+funFact; // ReferenceError!
+```
+
+`let` creates a new scope called **block scope**. Before ES2015, there was *global* and *function* scope, variables declared in the global scope could be used anywhere while variables declared (using the `var` keyword) in the function scope could only be used in that function. There are a few keywords that allow us to create blocks in JavaScript. Some of those are `if`, `for`, `while`, `do`, `try`, `catch`. If we use the `let` keywords inside those blocks, we create our own type of scope.
+
+When we write a function and declare a variable inside using `var`, and we declare the variable *after* the return statement, JavaScript will **hoist** the variable declaration to the top, but only the declaration. It does not assign the value as well, so our function would return undefined.
+
+``` javascript
+function helloInstructor() {
+    return clint;
+    var clint = "ME!";
+}
+
+helloInstructor(); // undefined
+
+// the same as writing this:
+function helloInstructor() {
+    var clint;
+    return clint;
+    clint = "ME!";
+}
+```
+
+``` javascript
+function helloInstructor() {
+    return clint;
+    let clint = "ME!";
+}
+
+helloInstructor(); // ReferenceError
+```
+
+`let` does hoist, but we can not access the value - it is in a TDZ (Temporal Dead Zone)
+
+``` javascript
+for (var i = 0; i < 5; i++) {
+    setTimeout(function() {
+        console.log(i);
+    }, 1000);
+}
+
+// 5 (five times)
+```
+
+You would think in the above code, 0 through 4 would be console logged. But what is actually happening is the for loop is already done running by the time `setTimeout` begins to print the value of `i`, which is already at the end of the loop and with a value of 5. Let's refactor with `let`.
+
+``` javascript
+for (let i = 0; i < 5; i++) {
+    setTimeout(function() {
+        console.log(i);
+    }, 1000);
+}
+
+// 0
+// 1
+// 2
+// 3
+// 4
+```
+
+With `let` a new variable is created for each iteration of the loop, allowing it to work how we intended it. With `var` a single variable is created globally for this loop.
+
+### Template/Multi-line Strings
+
+Concatenating strings with values can be messy and error prone:
+
+``` javascript
+var firstName = "Clint";
+
+var lastName = "Summer";
+
+console.log("Hello " + firstName + " " + lastName); // Error prone!
+```
+
+In ES2015 we have an easier way to handle this need, **template strings**.
+
+``` javascript
+console.log(`Hello ${firstName} ${lastName}`); // Much nicer!
+```
+
+**NOTE:** Make sure you are using the backticks for this!
+
+``` javascript
+"
+Hello
+" 
+// Does not work!
+
+`
+Hello
+How
+Nice
+Is
+This!
+` // Works well!
+```
+
+### Arrow functions
+
+Replace the keyword `function` with `=>`.
+
+``` javascript
+// ES2015
+var add = (a, b) => {
+    return a + b;
+};
+```
+
+* You can put arrow functions on one line.
+* But you must omit the return keyword as well as curly braces.
+
+``` javascript
+var add = (a, b) => a + b;
+```
+
+We can go from:
+
+``` javascript
+function doubleAndFilter(arr) {
+    return arr.map(function(value) {
+        return value * 2;
+    }).filter(function(value) {
+        return value % 3 === 0;
+    });
+}
+
+doubleAndFilter([5, 10, 15, 20]); // [30]
+```
+
+To this:
+
+``` javascript
+var doubleAndFilter = arr => arr.map(value => value * 2).filter(num => num % 3 === 0);
+};
+
+doubleAndFilter([5, 10, 15, 20]); // [30]
+```
+
+**NOTE:** When you only have a single parameter, we do not need parenthesis around it with arrow functions!
+
+* Arrow functions are not exactly the same as regular functions.
+* Arrow functions do not get their own `this` keyword.
+* Inside of an arrow function, the keyword `this` has its original meaning from the enclosing context.
+* The fact that arrow functions do not have their own `this` keyword can be quite helpful - you just need to understand when you might NOT want that.
+
+Remember that because the console log is inside `setTimeout`, `this` actually refers to the window rather than the object. This is why we used `bind` to explicitly set the value of `this`.
+
+``` javascript
+var instructor = {
+    firstName: "Clint",
+    sayHi: function() {
+        setTimeout(function() {
+            console.log("Hello " + this.firstName);
+        }.bind(this), 1000);
+    }
+};
+
+instructor.sayHi(); // "Hello Clint"
+```
+
+Arrow functions as an alternative:
+
+``` javascript
+var instructor = {
+    firstName: "Clint",
+    sayHi: function() {
+        setTimeout(() => {
+            console.log("Hello " + this.firstName);
+        }, 1000);
+    }
+};
+
+instructor.sayHi(); // Hello Clint
+```
+
+Why does this work? Arrow functions do not have their own `this` keyword. `this` refers to its enclosing context (the instructor object).
+
+**One Quick Gotcha**
+
+Notice that we used both the function keyword and an arrow function...why is that?
+
+Because then our outer function also would be missing a `this` keyword and have to take *it's* enclosing context, which would be the window object again. So rather than the `setTimeout` function having an enclosing context at the method of `sayHi`, it would have an enclosing context at the window.
+
+``` javascript
+var instructor = {
+    firstName: "Clint",
+    sayHi: () => {
+        setTimeout(() => {
+            console.log("Hello " + this.firstName);
+        }, 1000);
+    }
+};
+
+instructor.sayHi(); // Hello undefined
+```
+
+Arrow functions do not get their own keyword arguments.
+
+``` javascript
+var add = (a, b) => {
+    return arguments;
+};
+
+add(2, 4); // ReferenceError: arguments is not defined
+```
+
+Arrow functions should NEVER be used as methods in objects since we will get the incorrect value of the keyword `this`. ES2015 provides a better alternative we will see soon.
+
+``` javascript
+var instructor = {
+    firstName: "Clint",
+    sayHi: () => `Hello ${this.firstname}`
+};
+
+instructor.sayHi(); // "Hello undefined"
+```
+
+### Default Parameters

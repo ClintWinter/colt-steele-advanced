@@ -687,6 +687,34 @@ This is using the spread(rest) operator to make each key/value pair in the objec
 
 ### propTypes
 
-Development time type checker for your props.
+Development time type checker for your props. Doesn't do anything in production, only checks code for mistakes during development.
 
 Installation: `npm install --save prop-types`
+
+Example:
+
+``` javascript
+import PropTypes from 'prop-types';
+
+class IngredientList extends Component {
+    static propTypes = {
+        ingredients: PropTypes.arrayOf(PropTypes.string).isRequired
+    }
+
+    render() {
+        return (
+            <ul>
+                {this.props.ingredients.map((ing, ind) => (
+                    <li key={ind}>{ing}</li>
+                ))}
+            </ul>
+        )
+    }
+}
+```
+
+So now, rather than give ingredients default values, we are just defining the terms that ingredients must follow. It must be an array, an array of strings, and it is required.
+
+[https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes](The React docs have good information on proptypes.)
+
+Now we will continue with our Recipe App with props.
