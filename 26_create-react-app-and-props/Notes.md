@@ -718,3 +718,33 @@ So now, rather than give ingredients default values, we are just defining the te
 [https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes](The React docs have good information on proptypes.)
 
 Now we will continue with our Recipe App with props.
+
+### RecipeApp Exercise
+
+We are adding a navbar, a RecipeList and using defaultProps and propTypes to do this.
+
+First we add `Nav.js` and `Nav.css` and add it to our `RecipeApp`.
+
+``` javascript
+// Nav.js
+import React, {Component} from 'react';
+import './Nav.css';
+
+class Nav extends Component {
+    render() {
+        return (
+            <nav id="nav">
+                <div className="logo"><a href="javascript:">Recipe App</a></div>
+                <ul>
+                    <li><a href="javascript:">New Recipe</a></li>
+                    <li><a href="javascript:">Home</a></li>
+                    <li><a href="javascript:">About Us</a></li>
+                    <li><a href="javascript:">Contact</a></li>
+                </ul>
+            </nav>
+        );
+    }
+}
+
+export default Nav;
+```

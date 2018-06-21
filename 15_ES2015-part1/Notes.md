@@ -654,7 +654,7 @@ function createInstructor(options) {
     var options = options || {};
     var name = options.name || {first: "Clint", last: "Summer"};
     var isHilarious = options.isHilarious || false;
-    var [name.first, name.ast, isHilarious];
+    return [name.first, name.last, isHilarious];
 }
 ```
 

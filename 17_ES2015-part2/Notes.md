@@ -449,7 +449,7 @@ function displayAtRandomTime() {
 }
 ```
 
-The returned value from a promise will always contain a `.then` and `.catch` method which are funtions to be executed when the promise is resolved or rejected.
+The returned value from a promise will always contain a `.then` and `.catch` method which are functions to be executed when the promise is resolved or rejected.
 
 ``` javascript
 displayAtRandomTime().then(function(value) {

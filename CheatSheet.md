@@ -2105,3 +2105,385 @@ instructor.sayHi(); // "Hello undefined"
 ```
 
 ### Default Parameters
+
+``` javascript
+function add(a, b) {
+    return a + b;
+}
+
+add(); // NaN because a is undefined and b is undefined
+```
+
+``` javascript
+var add = (a = 10, b = 20) => a + b;
+
+add(); // 30
+add(20); // 40
+```
+
+### for ... of loops
+
+``` javascript
+var arr = [1, 2, 3, 4, 5];
+
+for (let val of arr) {
+    console.log(val);
+}
+
+// 1
+// 2
+// 3
+// 4
+// 5
+```
+
+* Can't access an index
+* Can only be used on data structures with  Symbol.iterator method implemented (no objects!)
+
+### Rest Operator
+
+Collects the rest of the unused arguments in a function and returns them to us.
+
+``` javascript
+function printRest(a, b, ...c) {
+    console.log(a);
+    console.log(b);
+    console.log(c);
+}
+
+printRest(1, 2, 3, 4, 5);
+// 1
+// 2
+// [3, 4, 5]
+```
+
+* The rest operator always returns an array.
+* Is called the rest operator "only" when it is a parameter to a function.
+* Is accessed without the `...` in a function.
+* A better alternative to using the `arguments` array-like-object.
+
+``` javascript
+// A little fancier ES5
+function sumArguments() {
+    var argumentsArray = [].slice.call(arguments);
+    return argumentsArray.reduce(function(accumulator, nextValue) {
+        return accumulator + nextValue;
+    });
+}
+```
+
+``` javascript
+// ES2015
+var sumArguments = (...args) => args.reduce((acc, next) => acc + next);
+```
+
+### Spread Operator
+
+* Used on arrays to spread each value out (as a comma separated value).
+* Useful when you have an array, but what you are working with expects comma separated values.
+
+``` javascript
+// ES5
+var arr1 = [1, 2, 3];
+var arr2 = [4, 5, 6];
+var arr3 = [7, 8, 9];
+
+var combined = arr1.concat(arr2).concat(arr3);
+```
+
+``` javascript
+// ES2015
+var combined = [...arr1, ...arr2, ...arr3];
+```
+
+Remember when we learned we can use the `apply` method to pass functions the values of an array as arguments when it didn't accept an array? Well now we have a dedicated operator for that when using spread.
+
+``` javascript
+var arr = [3, 2, 4, 1, 5];
+
+Math.max(arr); // NaN
+```
+
+``` javascript
+// ES5
+Math.max.apply(this, arr); // 5
+```
+
+``` javascript
+// ES2015
+Math.max(...arr); // 5
+```
+
+### Object Shorthand Notation
+
+``` javascript
+var firstName = "Clint";
+var lastName = "Summer";
+
+// ES5
+var instructor = {
+    firstName: firstName,
+    lastName: lastName
+};
+```
+
+In ES2015, if the keys and values have the same name, we can write it shorthand like this:
+
+``` javascript
+var firstName = "Clint";
+var lastName = "Summer";
+
+// ES2015
+var instructor = {
+    firstName,
+    lastName
+};
+```
+
+### Object Methods
+
+``` javascript
+// ES5
+var instructor = {
+    sayHello: function() {
+        return "Hello!";
+    }
+};
+```
+
+``` javascript
+// ES2015 - do NOT use arrow functions here!
+var instructor = {
+    sayHello() {
+        return "Hello!";
+    }
+}
+```
+
+### Computed Property Names
+
+``` javascript
+// ES5
+var firstName = "Clint";
+var instructor = {};
+instructor[firstName] = "That's me!";
+
+instructor.Clint; // "That's me!"
+```
+
+Normally if we wanted to use a variables value as the key for an object property, we would have to create the object first, then use bracket notation to have it properly compute. With computed property names we can use bracket notation inside of the object itself when creating it.
+
+``` javascript
+// ES2015
+var firstName = "Clint";
+var instructor = {
+    [firstName]: "That's me!"
+};
+
+instructor.Clint; // "That's me!"
+```
+
+### Destructuring
+
+Extracting values from data stored in objects and arrays.
+
+``` javascript
+var instructor = {
+    firstName: "Clint",
+    lastName: "Summer"
+};
+```
+
+In ES5, this is how we would extract data from an object and create variables whose names are based off the keys of the object. 
+
+``` javascript
+var firstName = instructor.firstName;
+var lastName = instructor.lastName;
+
+firstName; // "Clint"
+lastName; // "Summer"
+```
+
+In ES2015:
+
+``` javascript
+var {firstName, lastName} = instructor;
+
+firstName; // "Clint"
+lastName; // "Summer"
+```
+
+What if we want to change the variable names?
+
+``` javascript
+var {firstName:first, lastName:last} = instructor;
+
+first; // "Clint"
+last; // "Summer"
+```
+
+### Default Values with an Object
+
+**ES5**
+
+We are checking to see if a value for the options parameter was passed in, and if not we give it an empty object. We are then creating variables which will either be values inside of the options object or default values that we make. Finally we return an array of the properties.
+
+``` javascript
+function createInstructor(options) {
+    var options = options || {};
+    var name = options.name || {first: "Clint", last: "Summer"};
+    var isHilarious = options.isHilarious || false;
+    return [name.first, name.last, isHilarious];
+}
+```
+
+``` javascript
+createInstructor(); // ["Clint", "Summer", false]
+createInstructor({isHilarious: true}); // ["Clint", "Summer", true]
+createInstructor({name: {first: "Ross", last: "Smith"}}); // ["Ross", "Smith", false]
+
+// Lots of work! :(
+```
+
+**ES2015**
+
+``` javascript
+function createInstructor({name = {first:"Clint", last:"Summer"}, isHilarious = false} = {}) {
+    return [name.first, name.last, isHilarious];
+}
+```
+
+* We are passing in a destructured object as a default parameter to a function.
+* We are specifying the keys `name` and `isHilarious` as default values.
+* At the end of the argument we are assigning the whole thing to an empty object so ES2015 knows that our default parameter is a destructured object.
+* If nothing is passed in, we default to the destructured object as the parameter.
+
+``` javascript
+createInstructor(); // ["Clint", "Summer", false]
+createInstructor({isHilarious: true}); // ["Clint", "Summer", true]
+createInstructor({name: {first: "Ross", last: "Smith"}}); // ["Ross", "Smith", false]
+```
+
+### Object Fields as Parameters
+
+**ES5**
+
+``` javascript
+function displayInfo(obj) {
+    return [obj.name, obj.favColor];
+}
+```
+
+``` javascript
+var instructor = {
+    name: "Clint",
+    favColor: "Blue"
+};
+
+displayInfo(instructor); // ["Clint", "Blue"]
+```
+
+**ES2015**
+
+``` javascript
+function displayInfo({name,favColor}) {
+    return [name, favColor];
+}
+```
+
+``` javascript
+var instructor = {
+    name: "Clint",
+    favColor: "Blue"
+};
+
+displayInfo(instructor); // ["Clint", "Blue"]
+```
+
+### Array Destructuring
+
+``` javascript
+// ES5
+var arr = [1, 2, 3];
+
+var a = arr[0];
+var b = arr[1];
+var c = arr[2];
+
+a; // 1
+b; // 2
+c; // 3
+```
+
+``` javascript
+// ES2015
+var arr = [1, 2, 3];
+
+var [a, b, c] = arr;
+
+a; // 1
+b; // 2
+c; // 3
+```
+
+Example 2:
+
+``` javascript
+// ES5
+function returnNumbers(a, b) {
+    return [a, b];
+}
+
+var first = returnNumbers(5, 10)[0];
+var second = returnNumbers(5, 10)[1];
+
+first; // 5
+second; // 10
+```
+
+``` javascript
+// ES2015
+function returnNumbers(a, b) {
+    return [a, b];
+}
+
+var [first, second] = returnNumbers(5, 10);
+
+first; // 5
+second; // 10
+```
+
+### Swapping Values
+
+Common when you don't want to make a new array, but just want to switch the places of certain values.
+
+``` javascript
+// ES5
+function swap(a, b) {
+    var temp = a;
+    a = b;
+    b = temp;
+    return [a, b];
+}
+
+swap(10, 5); // [5, 10]
+```
+
+``` javascript
+// ES2015
+function swap(a, b) {
+    return [a, b] = [b, a];
+}
+
+swap (10, 5); // [5, 10]
+```
+
+### Recap
+
+* ES2015 gives us two new keywords for declaring variables, `let` and `const`. `const` ensures we can not redeclare a variable and `let` gives us block scope.
+* Easily evaluate variables in strings and create nulti-line strings with ES2015 template strings. Don't forget the backticks!
+* Create more concise functions using the `=>` syntax, but these functions do not get their own `this` and `arguments` keywords.
+* Gather arguments to a function as an array using the rest operator and spread out values in an array to another value or function using `...`.
+* Write more concise methods and property names using shorthand notation and computed property names.
+* Object destructuring is very useful for reducting duplication and passing in default parameters as a destructured object.
+
