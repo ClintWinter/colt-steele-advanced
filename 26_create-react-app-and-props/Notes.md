@@ -748,3 +748,203 @@ class Nav extends Component {
 
 export default Nav;
 ```
+
+``` javascript
+// RecipeApp.js
+import React, { Component } from 'react';
+// import logo from './logo.svg';
+import Nav from './Nav';
+import './RecipeApp.css';
+
+class RecipeApp extends Component {
+  render() {
+    return (
+      <div className="RecipeApp">
+        <Nav />
+      </div>
+    );
+  }
+}
+
+export default RecipeApp;
+```
+
+We create `RecipeList` which will hold our recipes now instead of `RecipeApp`. We can also create it's accompanying css file.
+
+We give it a `defaultProps` that is an array of recipes, so when the user gives us none we still have something to put on the page. We also give it a `propTypes` property to make sure the data is what we expect.
+
+``` javascript
+// RecipeList.js
+import React, {Component} from 'react';
+import Recipe from './Recipe';
+import PropTypes from 'prop-types';
+import './RecipeList.css';
+
+class RecipeList extends Component {
+    static defaultProps = {
+        recipes: [
+            {
+                title: "Recipe",
+                ingredients: ["Milk", "Eggs", "Flour", "Butter", "Sugar"],
+                instructions: "Mix then bake.",
+                img: "cake.jpg"
+            }
+        ]
+    }
+
+    static propTypes = {
+        recipes: PropTypes.arrayOf(PropTypes.object).isRequired
+    }
+
+    render() {
+        return (
+            <div id="recipeList">
+                {this.props.recipes.map((recipe, ind) => (
+                    <Recipe key={ind} {...recipe} />
+                ))}
+            </div>
+        );
+    }
+}
+
+export default RecipeList;
+```
+
+Next we can modify `Recipe` to have `propTypes` so that it's receiving the right data and the right type of data to work with.
+
+``` javascript
+// Recipe.js
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import './Recipe.css';
+
+class Recipe extends Component {
+    static propTypes = {
+        title: PropTypes.string.isRequired,
+        instructions: PropTypes.string.isRequired,
+        img: PropTypes.string.isRequired,
+        ingredients: PropTypes.arrayOf(PropTypes.string).isRequired
+    }
+    
+    render() {
+        const {title, instructions, img} = this.props;
+        const ingredients = this.props.ingredients.map((ing, ind) => (
+            <li key={ind}>{ing}</li>
+        ));
+
+        return (
+            <div className="recipe-card">
+                <div className="recipe-card-img">
+                    <img src={img} alt={title} />
+                </div>
+
+                <div className="recipe-card-content">
+                    <h2 className="recipe-card-title">{title}</h2>
+
+                    <h3>Ingredients:</h3>
+                    <ul>
+                        {ingredients}
+                    </ul>
+
+                    <h3>Instructions:</h3>
+                    <p>{instructions}</p>
+                </div>
+            </div>
+        );
+    }
+}
+
+export default Recipe;
+```
+
+Lastly we can give `RecipeApp` a recipelist with an array of all of the recipes we want to pass it, which will then pass those recipes to a `Recipe` component for each recipe.
+
+``` javascript
+// Recipe.js
+import React, { Component } from 'react';
+// import logo from './logo.svg';
+import RecipeList from './RecipeList';
+import Nav from './Nav';
+import './RecipeApp.css';
+
+class RecipeApp extends Component {
+  render() {
+    return (
+      <div className="RecipeApp">
+        <Nav />
+        <RecipeList 
+          recipes={[
+            {
+              title: "Pasta",
+              ingredients: ['Flour', 'Water'],
+              instructions: "Add flour to water and mix!",
+              img: "spaghetti.jpg"
+            },
+            {
+              title: "Milkshake",
+              ingredients: ['Milk', 'Ice Cream'],
+              instructions: "Add 2 scoops of ice cream to 8 oz of milk, and blend until creamy.",
+              img: "milkshakes.jpg"
+            },
+            {
+              title: "Cheeseburger",
+              ingredients: ['Buns', 'Cheese', 'Hamburger', 'Lettuce', 'Tomato'],
+              instructions: "Cook Burger until well done. Add cheese at the end to melt it. Place on bun and add fixings!",
+              img: "cheeseburger.jpg"
+            }
+          ]}
+        />
+      </div>
+    );
+  }
+}
+
+export default RecipeApp;
+```
+
+## props.children
+
+**Objectives:**
+
+* Describe what `props.children` does.
+* Read more about `props.children` helper methods.
+
+A collection of the children inside of a componentent...
+
+### Row Example
+
+``` javascript
+class App extends Component {
+    render() {
+        return (
+            <Row>
+                <p>Timothy</p>
+                <div>Moxie</div>
+                <h1>React</h1>
+            </Row>
+        );
+    }
+}
+```
+
+Let's say we we want to create a `Row` component that accepts any elements inside of it and displays those contents in a row. To get that to work we would use `props.children`.
+
+``` javascript
+class Row extends Component {
+    render() {
+        return (
+            <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-around'
+            }}>
+                {this.props.children}
+            </div>
+        );
+    }
+}
+```
+
+What happens is the contents put inside `<Row></Row>` are passed to the `Row` component as `this.props.children` which we can then put directly into row to be used how we like.
+
+A good resource for this: **[https://mxstbr.blog/2017/02/react-children-deepdive/](A deep dive into children in React)**
