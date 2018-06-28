@@ -174,3 +174,75 @@ What's happening above is we are now using `map` to go through the instructors, 
 
 ## React Component Architecture
 
+**Objectives:**
+
+* Pass state to child components as props.
+* Define which components own state.
+* Use stateless functional components.
+
+### How is State Shared?
+
+* State is always passed from a parent down to a child component *as a prop*.
+* State should not be passed to a sibling or parent.
+
+Let's refer to directory 2: `2_component-architecture` for our example. In `2_component-architecture/starter-code.js`, you'll see in our App component that we loop through each instructor to create an `<li>` element and render it. Instead what we want to do is pass them as props to a child component and render it inside our App component.
+
+``` javascript
+class InstructorItem extends Component {
+    static propTypes = {
+        name: PropTypes.string,
+        hobbies: PropTypes.arrayOf(PropTypes.string)
+    }
+    render() {
+        return (
+            <li>
+                <h3>{this.props.name}</h3>
+                <h4>
+                Hobbies: {this.props.hobbies.join(", ")}
+                </h4>
+            </li>
+        );
+    }
+}
+```
+
+Adding this above our App component allows us to use the InstructorItem component for each instructor rather than all the `<li>` JSX.
+
+``` javascript
+render() {
+    const instructors = this.state.instructors.map((instructor, index) => (
+        <li key={index}>
+        <h3>{instructor.name}</h3>
+        <h4>Hobbies: {instructor.hobbies.join(", ")}</h4>
+        </li>
+    ));
+    return (
+        <div className="App">
+        <ul>
+            {instructors}
+        </ul>
+        </div>
+    );
+}
+```
+
+Becomes...
+
+``` javascript
+render() {
+    const instructors = this.state.instructors.map((instructor, index) => (
+        <InstructorItem 
+            key={index}
+            name={instructor.name}
+            hobbies={instructor.hobbies}
+        />
+    ));
+    return (
+        <div className="App">
+        <ul>
+            {instructors}
+        </ul>
+        </div>
+    );
+}
+```
